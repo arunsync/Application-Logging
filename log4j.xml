@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+<appender name="SPRING_LOGS" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/spring.log" />
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n"/>
+        </layout>
+    </appender>
+<!-- PAL_LOGS Appender -->
+<appender name="PAL_LOGS" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="Append" value="true" />
+    <param name="File" value="${catalina.base}/logs/PAL-webapp-2.0.log" />
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%X{IPADDRESS}] [%X{SESSIONID}] [%c{1}] %m%n" />
+    </layout>
+</appender>
+
+<appender name="SPLUNK_PAL" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="Append" value="true" />
+    <param name="File" value="${catalina.base}/logs/splunk-PAL-2.0.log" />
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] IPADDRESS=%X{IPADDRESS}|%m%n" />
+    </layout>
+</appender>
+
+<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%X{SESSIONID}] [%c{1}] %m%n" />
+    </layout>
+</appender>
+
+<category name="com.sss" additivity="false">
+    <priority value="ALL" />
+    <appender-ref ref="PAL_LOGS" />
+</category>
+
+<category name="com.sss.PAL.splunk" additivity="false">
+    <priority value="INFO" />
+    <appender-ref ref="SPLUNK_PAL" />
+</category>
+
+<category name="org.springframework" additivity="false">
+    <priority value="INFO" />
+    <appender-ref ref="SPRING_LOGS" />
+</category>
+
+<!-- TESTCODE - create a category for catalina -->
+<category name="org.apache.catalina" additivity="false">
+	<priority value="INFO" />
+	<appender-ref ref="CONSOLE" />
+</category>
+<!-- END TESTCODE -->
+
+<!-- Category Section End -->
+    <!-- ======================= -->
+    <!-- Setup the Root category -->
+    <!-- ======================= -->
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="SPRING_LOGS"/>
+        <appender-ref ref="PAL_LOGS"/>
+        <appender-ref ref="SPLUNK_PAL"/>
+    </root>
+</log4j:configuration>
