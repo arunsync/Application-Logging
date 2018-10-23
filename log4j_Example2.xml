@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="dailyLog" class="org.apache.log4j.rolling.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/test-service.log" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+			<param name="FileNamePattern" value="${catalina.base}/logs/test-service.%d.log.gz" />
+		</rollingPolicy>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p [%t] %d{ISO8601} - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="appLog" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/test-service.log" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="MaxFileSize" value="5MB" />
+		<param name="MaxBackupIndex" value="20" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%5p [%t] %d{ISO8601} - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="messageLog" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/test-message.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="50MB" />
+		<param name="MaxBackupIndex" value="20" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%5p [%t] %d{ISO8601} - %m%n" />
+		</layout>
+	</appender>
+	
+	<logger name="org.apache.cxf" additivity="false">
+		<appender-ref ref="messageLog" />
+	</logger>
+
+	<root>
+		<priority value="info" />
+		<appender-ref ref="appLog" />
+	</root>
+
+</log4j:configuration>
