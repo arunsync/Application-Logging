@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Log4j Configuration                                                  -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<!-- $Id: log4j.xml,v 1.13.2.2 2003/03/22 21:16:25 starksm Exp $ -->
+<!--
+   | For more configuration infromation and examples see the Jakarta Log4j
+   | owebsite: http://jakarta.apache.org/log4j
+ -->
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <!-- sss_base Appender -->
+	<appender name="SSS_FILE" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="/sss/logs"/>
+		<param name="Prefix" value="sss_base_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+    
+    <!-- ABC Appender -->
+	<appender name="ABC" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="/sss/logs"/>
+		<param name="Prefix" value="ABC_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+    <!-- DB Appender -->
+	<appender name="DB" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="/sss/logs"/>
+		<param name="Prefix" value="db_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+    <!-- Fraud Appender -->
+	<appender name="FRAUD" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="/sss/logs"/>
+		<param name="Prefix" value="fraud_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+    <!-- boot.log Appender -->
+	<appender name="FILE" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="${jboss.server.home.dir}/log"/>
+		<param name="Prefix" value="boot_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+    
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <param name="Threshold" value="WARN"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c] %m%n"/>
+        </layout>
+    </appender>  
+
+    <!-- Spring Appender -->
+	<appender name="SPRING" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="/sss/logs"/>
+		<param name="Prefix" value="spring_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+    <!-- Hibernate Appender -->
+	<appender name="HIBERNATE" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="/sss/logs"/>
+		<param name="Prefix" value="hibernate_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- Appender for SPLUNK logging -->
+	<appender name="SUPPORT" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Directory" value="/sss/logs"/>
+		<param name="Prefix" value="support_"/>
+		<param name="Suffix" value=".log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%t] (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+    <!-- File Appenders Section End -->
+    
+    <!-- Categories Section Start -->
+    <category name="org.jboss">
+        <priority value="DEBUG"/>
+    </category>
+    <category name="org.jnp">
+        <priority value="INFO"/>
+    </category>
+    
+        
+	<category name="com.sss.ABC" additivity="false">
+		<priority value="ALL" />
+		<appender-ref ref="ABC" />
+	</category>
+            
+	<category name="com.sss.web.db" additivity="false">
+		<priority value="ALL" />
+		<appender-ref ref="DB" />
+	</category>
+        
+	<category name="com.sss.fraud" additivity="false">
+		<priority value="ALL" />
+		<appender-ref ref="FRAUD" />
+	</category>
+      
+	<category name="com.sss" additivity="false">
+		<priority value="ALL"/>
+		<appender-ref ref="SSS_FILE"/>
+	</category>
+      
+      <category name="org.springframework" additivity="false">
+        <priority value="INFO"/>
+        <appender-ref ref="SPRING"/>
+      </category>
+      
+      <category name="org.hibernate" additivity="false">
+        <priority value="ERROR"/>
+        <appender-ref ref="HIBERNATE"/>
+      </category>
+    
+	<!-- Send log output for the SUPPORT logger to all loggers -->
+	<category name="SUPPORT" additivity="false">
+		<priority value="ALL" />
+		<appender-ref ref="SUPPORT" />
+		<appender-ref ref="ABC" />
+		<appender-ref ref="CONSOLE" />
+	</category>
+    <!-- Category Section End -->
+    
+    <!-- ======================= -->
+    <!-- Setup the Root category -->
+    <!-- ======================= -->
+    <root>
+        <priority value="WARN"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</log4j:configuration>
